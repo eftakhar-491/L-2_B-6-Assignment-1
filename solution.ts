@@ -64,8 +64,6 @@ function printBookDetails(book: Book) {
   }, Available: ${book.isAvailable ? "Yes" : "No"}`;
 }
 
-// type TUniqueArray = number | string;
-
 type TVisited = { [key: string]: boolean };
 
 function getUniqueValues(arr1: number[], arr2: number[]): number[];
