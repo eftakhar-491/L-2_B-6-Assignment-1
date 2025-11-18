@@ -2,18 +2,6 @@
 
 - TypeScript gives us powerful type-safety features, and three of the most misunderstood types are any, unknown, and never. Even though they seem similar, each exists for a completely different purpose.
 
-### This post will explain:
-
-✅ What is any, unknown, and never
-
-✅ Syntax examples
-
-✅ Differences between them
-
-✅ When to use which
-
-✅ Summary
-
 ### 🔹 What is any?
 
 - any tells TypeScript to turn off all type checking for that variable. It means: “I don’t care what the type is — allow everything."
@@ -80,8 +68,6 @@ function infiniteLoop(): never {
 while (true) {} // Runs forever
 }
 ```
-
-## 🔥 Differences Between any, unknown, and never
 
 ## 🔥 Differences Between `any`, `unknown`, and `never`
 
