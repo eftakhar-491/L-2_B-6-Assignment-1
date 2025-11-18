@@ -1,98 +1,69 @@
-# 📝 Differentce beetween any, unknown, and never in TypeScript
+TypeScript আমাদের শক্তিশালী টাইপ-সেফটি (type-safety) বৈশিষ্ট্য দেয়। এর মধ্যে তিনটি টাইপ হলো: any, unknown, এবং never। যদিও সেগুলোকে দেখতে একই রকম মনে হয়, তবুও প্রতিটির অস্তিত্ব সম্পূর্ণরূপে ভিন্ন উদ্দেশ্যে।
 
-- TypeScript gives us powerful type-safety features, and three of the most misunderstood types are any, unknown, and never. Even though they seem similar, each exists for a completely different purpose.
+🔹 any কী?
 
-### 🔹 What is any?
-
-- any tells TypeScript to turn off all type checking for that variable. It means: “I don’t care what the type is — allow everything."
-
-### ✔ Example (using any)
+any TypeScript-কে বলে দেয় যে এই ভেরিয়েবলের জন্য সকল টাইপ চেকিং বন্ধ করে দাও। এর মানে: “আমার টাইপ কী তা নিয়ে কোনো চিন্তা নেই — সবকিছুই অনুমোদন করো।”✔ উদাহরণ (any ব্যবহার করে)TypeScriptlet value: any;
 
 ```
-let value: any;
-
 value = 10;
 value = "Hello";
 value = true;
 
-value.toUpperCase(); // No error, even if value is not a string
-```
-
-❗ Drawback
-
-Using any removes type safety and can cause runtime errors.
-
-### 🔹 What is unknown?
-
-- unknown is like a safer version of any. It means: “This value can be anything, but you must check the type before using it.”
-
-✔ Example (using unknown)
-
-```
-let value: unknown;
+value.toUpperCase(); // কোনো ত্রুটি নেই, যদিও value একটি string নয়
+❗ ত্রুটি (Drawback)any ব্যবহার করলে টাইপ সেফটি দূর হয়ে যায় এবং রানটাইম ত্রুটির (runtime errors) কারণ হতে পারে।🔹 unknown কী?unknown হলো any-এর একটি নিরাপদ সংস্করণ। এর মানে: “এই ভ্যালুটি যেকোনো কিছু হতে পারে, তবে ব্যবহারের আগে তোমাকে অবশ্যই টাইপটি পরীক্ষা করতে হবে।”✔ উদাহরণ (unknown ব্যবহার করে)TypeScriptlet value: unknown;
 
 value = 10;
 value = "Hello";
 
-value.toUpperCase(); // ❌ ERROR: Type is unknown
+value.toUpperCase(); // ❌ ত্রুটি (ERROR): টাইপ unknown
 
 if (typeof value === "string") {
-value.toUpperCase(); // ✔ Safe after checking
+value.toUpperCase(); // ✔ টাইপ পরীক্ষা করার পর নিরাপদ
 }
 ```
 
-✔ Benefit
+✔ উপকারিতা (Benefit)এটি আপনাকে টাইপটি বৈধতা দিতে বাধ্য করে (validate the type) → তাই any-এর চেয়ে নিরাপদ।🔹 never কী?never এমন একটি ভ্যালুকে প্রতিনিধিত্ব করে যা কখনোই হওয়া উচিত নয়। যে ফাংশন never রিটার্ন করে, সেটি আসলে কখনোই রিটার্ন করবে না।সাধারণ ক্ষেত্র:একটি ফাংশন যা সর্বদা একটি ত্রুটি (error) ছুঁড়ে মারে (throws)একটি ফাংশন যা কখনোই শেষ হয় না (অসীম লুপ বা infinite loop)এক্সজস্টিভ টাইপ চেকিং (exhaustive type checking) সহ একটি switch স্টেটমেন্ট
 
-It forces you to validate the type → safer than any.
-
-### 🔹 What is never?
-
-- never represents a value that should never happen. A function returning never will not return at all.
-
-Common cases:
-
-A function that always throws an error
-
-A function that never finishes (infinite loop)
-
-A switch statement with exhaustive type checking
-
-✔ Example (using never)
+✔ উদাহরণ (never ব্যবহার করে)
 
 ```
-function throwError(message: string): never {
-throw new Error(message); // Never returns
+TypeScriptfunction throwError(message: string): never {
+throw new Error(message); // কখনোই রিটার্ন করে না
 }
 
 function infiniteLoop(): never {
-while (true) {} // Runs forever
+while (true) {} // চিরকাল চলতে থাকে
 }
 ```
 
-## 🔥 Differences Between `any`, `unknown`, and `never`
+🔥 any, unknown, এবং never-এর মধ্যে পার্থক্যসমূহ
 
-| Type      | Meaning                  | Usage                 | Safety Level    |
+| Type | Meaning | Usage | Safety Level |
+
 | --------- | ------------------------ | --------------------- | --------------- |
-| `any`     | Any type, no checking    | Disable type checking | 🚨 Low (unsafe) |
-| `unknown` | Any type, but must check | Safe unknown values   | ✅ High         |
-| `never`   | No value possible        | Impossible cases      | 🛡 Very High     |
+
+| `any` | Any type, no checking | Disable type checking | 🚨 Low (unsafe) |
+
+| `unknown` | Any type, but must check | Safe unknown values | ✅ High |
+
+| `never` | No value possible | Impossible cases | 🛡 Very High |
 
 ```
 let a: any = "hello";
 a = 123;
 a = false;
-a.trim(); // No error
+a.trim(); // কোনো ত্রুটি নেই
 
-unknown – must check
+// unknown – অবশ্যই পরীক্ষা করতে হবে
 let u: unknown = "hello";
 
-u.trim(); // ❌ ERROR
+u.trim(); // ❌ ত্রুটি (ERROR)
 
 if (typeof u === "string") {
-u.trim(); // ✔ Safe
+u.trim(); // ✔ নিরাপদ
 }
 
-never – function never returns
+// never – ফাংশন কখনোই রিটার্ন করে না
 function crash(): never {
 throw new Error("Crash!");
 }
@@ -105,32 +76,17 @@ if (typeof value === "number") {
 return value \* 2;
 }
 
-// If TypeScript finds a type not handled above → it becomes never
-const unexpected: never = value; // ❌ Compile-time error
+
+// যদি TypeScript উপরে হ্যান্ডেল করা হয়নি এমন কোনো টাইপ খুঁজে পায় → এটি never হয়ে যায়
+const unexpected: never = value; // ❌ কম্পাইল-টাইম ত্রুটি (Compile-time error)
 }
 ```
 
-# 📌 Summary
+📌 সারসংক্ষেপ
 
-### any
-
-- Turns off type checking
-
-- Flexible but unsafe
-
-- Use only when needed
-
-### unknown
-
-- Similar to any, but forces type-checking
-
-- Safer and recommended over any
-
-### never
-
-- Represents something that never occurs
-
-- Used in error functions and exhaustive checks
+- any টাইপ চেকিং বন্ধ করে দেয়নমনীয় কিন্তু অনিরাপদশুধুমাত্র প্রয়োজন হলেই ব্যবহার করুন
+- unknownany-এর মতো, তবে টাইপ-চেকিং করতে বাধ্য করেany-এর চেয়ে নিরাপদ এবং সুপারিশকৃত
+- neverএমন কিছুকে প্রতিনিধিত্ব করে যা কখনোই ঘটে নাত্রুটি ফাংশন এবং এক্সজস্টিভ চেকিং-এ ব্যবহৃত হয়
 
 <hr>
 
@@ -138,71 +94,59 @@ const unexpected: never = value; // ❌ Compile-time error
 
 # 📝 Union and Intersection Types in TypeScript
 
-TypeScript provides powerful ways to combine types. Two of the most important are Union Types (|) and Intersection Types (&).
-They allow you to create flexible yet strongly typed structures.
+TypeScript টাইপ একত্রিত করার জন্য শক্তিশালী উপায় সরবরাহ করে। এর মধ্যে দুটি সবচেয়ে গুরুত্বপূর্ণ হলো **ইউনিয়ন টাইপস** (`|`) এবং **ইন্টারসেকশন টাইপস** (`&`)।
 
-This article explains:
+এগুলো flexible অথচ, টাইপ করা কাঠামো তৈরি করতে সাহায্য করে।
 
-✅ What are union types
+## 🔹 ইউনিয়ন টাইপস (`|`) কী?
 
-✅ What are intersection types
+- একটি ইউনিয়ন টাইপ মানে হলো একটি ভ্যালু **একটি টাইপ অথবা অন্য একটি টাইপ** হতে পারে। এটি `|` অপারেটর ব্যবহার করে লেখা হয়।
 
-✅ Syntax examples
-
-✅ Differences between union and intersection
-
-✅ Code examples
-
-✅ Summary
-
-### 🔹 What Are Union Types?
-
-- A union type means a value can be one type OR another type. It is written using the | operator.
-
-✔ Example (Union Type)
+### ✔ উদাহরণ (Union Type)
 
 ```
 let value: string | number;
 
-value = "Hello"; // ✔ valid
-value = 42; // ✔ valid
-value = true; // ❌ Error: boolean not allowed
+value = "Hello"; // ✔ বৈধ
+value = 42; // ✔ বৈধ
+value = true; // ❌ ত্রুটি: boolean অনুমোদিত নয়
 ```
 
-❗ Drawback
-Union types are useful when a value has multiple possible forms.
+❗ উপকারিতা
 
-### 🔹 What Are Intersection Types?
+ইউনিয়ন টাইপস খুব উপযোগী যখন একটি ভ্যালুর একাধিক সম্ভাব্য রূপ থাকতে পারে।
 
-An intersection type means a value must be all types at the same time.
-It is written using the & operator.
-
-✔ Example (Intersection Type)
+🔹 ইন্টারসেকশন টাইপস (&) কী?একটি ইন্টারসেকশন টাইপ মানে হলো একটি ভ্যালুকে একই সাথে সমস্ত টাইপ হতে হবে। এটি & অপারেটর ব্যবহার করে লেখা হয়।
+✔ উদাহরণ (Intersection Type)
 
 ```
 type Person = { name: string };
 type Employee = { employeeId: number };
 
-type Staff = Person & Employee;
+type Staff = Person & Employee; // Person এবং Employee-এর গুণাবলী একত্রিত হবে
 
 const staffMember: Staff = {
-name: "Eftakhar",
-employeeId: 101,
+    name: "Eftakhar",
+    employeeId: 101,
 };
 ```
 
-Intersection types merge the properties of multiple types → forming a new, combined type.
+ইন্টারসেকশন টাইপস একাধিক টাইপের বৈশিষ্ট্যগুলো একত্রিত করে একটি নতুন, সংযুক্ত টাইপ তৈরি করে।
 
-# 🔥 Top 5 Differences Between Union and Intersection Types
+🔥 ইউনিয়ন এবং ইন্টারসেকশন টাইপসের সেরা ৫টি পার্থক্য
 
----
+| Feature | **Union (`A \| B`)** | **Intersection (`A & B`)** |
 
-| Feature                 | **Union (`A \| B`)**                             | **Intersection (`A & B`)**                         |
 | ----------------------- | ------------------------------------------------ | -------------------------------------------------- |
-| **1. Meaning**          | A value can be **either A or B**                 | A value must be **both A and B**                   |
-| **2. Flexibility**      | More flexible → accepts multiple types           | More strict → must satisfy all types               |
-| **3. Result Type**      | Combines options from A **or** B                 | Merges properties of A **and** B                   |
-| **4. Type Safety**      | Requires type-checking before using properties   | All required properties always exist               |
+
+| **1. Meaning** | A value can be **either A or B** | A value must be **both A and B** |
+
+| **2. Flexibility** | More flexible → accepts multiple types | More strict → must satisfy all types |
+
+| **3. Result Type** | Combines options from A **or** B | Merges properties of A **and** B |
+
+| **4. Type Safety** | Requires type-checking before using properties | All required properties always exist |
+
 | **5. Common Use Cases** | Multiple possible function inputs, API responses | Composing models, mixins, extending multiple types |
 
 ---
@@ -212,49 +156,69 @@ Intersection types merge the properties of multiple types → forming a new, com
 Union Example – flexible input
 
 ```
+
 function printId(id: string | number) {
+
 console.log("Your ID is:", id);
+
 }
 
+
+
 printId(100); // ✔ number
+
 printId("abc123"); // ✔ string
+
 ```
 
 Intersection Example – combine multiple types
 
 ```
+
 type HasEmail = { email: string };
+
 type HasPhone = { phone: string };
+
+
 
 type ContactInfo = HasEmail & HasPhone;
 
+
+
 const contact: ContactInfo = {
+
 email: "user@example.com",
+
 phone: "+880123456789",
+
 };
 
+
+
 Union vs Intersection
+
 type A = { a: number };
+
 type B = { b: string };
 
+
+
 let u: A | B; // either type A OR type B
+
 u = { a: 10 };
+
 u = { b: "text" };
 
+
+
 let i: A & B; // must have BOTH
+
 i = { a: 10, b: "text" };
+
 ```
 
-### 📌 Summary
+📌 সারসংক্ষেপ
 
-- Union (|)
+- ইউনিয়ন (|) একটি ভ্যালু একটি টাইপ অথবা অন্য একটি হতে পারে। নমনীয় ইনপুট বা প্যারামিটার বিকল্পের জন্য চমৎকার।
 
--- A value can be one type OR another
-
--- Great for flexible API inputs or parameter options
-
-- Intersection (&)
-
--- A value must satisfy multiple types at once
-
--- Useful for combining interfaces and building complex structures
+- ইন্টারসেকশন (&) একটি ভ্যালুকে একই সাথে একাধিক টাইপ পূরণ করতে হবে। ইন্টারফেস একত্রিত করতে এবং জটিল কাঠামো তৈরি করতে দরকারী।
